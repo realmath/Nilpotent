@@ -51,7 +51,7 @@ public class RationalTest {
   }
 
   @Test
-  public void substract() {
+  public void subtract() {
     Rational rat1 = new Rational(BigInteger.valueOf(6L), BigInteger.valueOf(8L));
     Rational rat2 = new Rational(BigInteger.valueOf(4L), BigInteger.valueOf(3L));
     Rational rat3 = new Rational(BigInteger.valueOf(-7L), BigInteger.valueOf(12L));
@@ -80,5 +80,21 @@ public class RationalTest {
     Rational minusTwo = new Rational(BigInteger.ONE.add(BigInteger.ONE).negate(), BigInteger.ONE);
 
     assertEquals(minusTwo, new Rational(-2));
+  }
+
+  @Test
+  public void pow() {
+    Rational r = new Rational(2).dividedBy(new Rational(-3));
+    Rational v = new Rational(-27).dividedBy(new Rational(8));
+    assertEquals(v, r.pow(-3));
+  }
+
+  @Test
+  public void factorial() {
+    assertEquals(Rational.ONE, Rational.factorial(0));
+    assertEquals(Rational.ONE, Rational.factorial(1));
+    assertEquals(new Rational(2), Rational.factorial(2));
+    assertEquals(new Rational(6), Rational.factorial(3));
+    assertEquals(new Rational(24), Rational.factorial(4));
   }
 }

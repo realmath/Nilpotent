@@ -7,21 +7,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
+import org.hamcrest.core.StringContains;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import xyz.realmath.StructureConstants.Builder;
-import xyz.realmath.StructureConstants.JacobiException;
+import xyz.realmath.MalcevStructureConstants.Builder;
+import xyz.realmath.MalcevStructureConstants.JacobiException;
 
 @RunWith(JUnit4.class)
-public class StructureConstantsTest {
+public class MalcevStructureConstantsTest {
 
-  @Rule public ExpectedException thrown = ExpectedException.none();
+  @Rule public final ExpectedException thrown = ExpectedException.none();
 
-  private static void jacobi(StructureConstants sc) {
-    int dim = sc.getDim();
+  private static void jacobi(MalcevStructureConstants sc) {
+    int dim = sc.dim();
     for (int i = 0; i < dim; i++) {
       Rational[] xi = baseVector(dim, i);
       for (int j = 0; j < dim; j++) {
@@ -43,13 +44,13 @@ public class StructureConstantsTest {
       builder.build();
       fail();
     } catch (JacobiException je) {
-      assertEquals("Jacobi identity not satisfied.", je.getMessage());
+      assertThat(je.getMessage(), StringContains.containsString("Jacobi identity not satisfied: "));
       verifyJacobiException(builder.buildForTest(), je.i, je.j, je.k);
     }
   }
 
-  private static void verifyJacobiException(StructureConstants sc, int i, int j, int k) {
-    int dim = sc.getDim();
+  private static void verifyJacobiException(MalcevStructureConstants sc, int i, int j, int k) {
+    int dim = sc.dim();
     Rational[] xi = baseVector(dim, i);
     Rational[] xj = baseVector(dim, j);
     Rational[] xk = baseVector(dim, k);
@@ -74,23 +75,27 @@ public class StructureConstantsTest {
   }
 
   private static Rational[] jacobiCycle(
-      StructureConstants sc, Rational[] x, Rational[] y, Rational[] z) {
-    int dim = sc.getDim();
+      MalcevStructureConstants sc, Rational[] x, Rational[] y, Rational[] z) {
+    int dim = sc.dim();
     Rational[] retVal = new Rational[dim];
 
-    Rational[] jacobi1 = sc.lieBracket(sc.lieBracket(x, y), z);
-    Rational[] jacobi2 = sc.lieBracket(sc.lieBracket(y, z), x);
-    Rational[] jacobi3 = sc.lieBracket(sc.lieBracket(z, x), y);
+    Tuple tx = new Tuple(x);
+    Tuple ty = new Tuple(y);
+    Tuple tz = new Tuple(z);
+
+    Tuple jacobi1 = sc.lieBracket(sc.lieBracket(tx, ty), tz);
+    Tuple jacobi2 = sc.lieBracket(sc.lieBracket(ty, tz), tx);
+    Tuple jacobi3 = sc.lieBracket(sc.lieBracket(tz, tx), ty);
     for (int m = 0; m < dim; m++) {
-      retVal[m] = jacobi1[m].add(jacobi2[m]).add(jacobi3[m]);
+      retVal[m] = jacobi1.get(m).add(jacobi2.get(m)).add(jacobi3.get(m));
     }
     return retVal;
   }
 
   @Test
   public void dim() {
-    StructureConstants structureConstants = new Builder(3).build();
-    assertEquals(3, structureConstants.getDim());
+    MalcevStructureConstants structureConstants = new Builder(3).build();
+    assertEquals(3, structureConstants.dim());
   }
 
   @Test
@@ -138,7 +143,7 @@ public class StructureConstantsTest {
 
   @Test
   public void heisenberg() {
-    StructureConstants sc = new Builder(3).add(0, 1, 2, Rational.ONE).build();
+    MalcevStructureConstants sc = new Builder(3).add(0, 1, 2, Rational.ONE).build();
     assertEquals(Rational.ZERO, sc.get(0, 0, 0));
     assertEquals(Rational.ZERO, sc.get(0, 0, 1));
     assertEquals(Rational.ZERO, sc.get(0, 0, 2));
@@ -172,7 +177,7 @@ public class StructureConstantsTest {
 
   @Test
   public void validCases() {
-    StructureConstants sc =
+    MalcevStructureConstants sc =
         new Builder(4).add(0, 1, 2, Rational.ONE).add(1, 2, 3, Rational.ONE).build();
     jacobi(sc);
 
@@ -260,5 +265,46 @@ public class StructureConstantsTest {
             .add(0, 2, 3, Rational.ONE)
             .add(1, 3, 4, Rational.ONE);
     justifyInvalidBuilder(builder);
+
+    builder =
+        new Builder(7)
+            .add(0, 1, 4, Rational.ONE)
+            .add(2, 3, 5, Rational.ONE)
+            .add(4, 5, 6, Rational.ONE);
+    justifyInvalidBuilder(builder);
+
+    builder =
+        new Builder(7)
+            .add(0, 1, 3, Rational.ONE)
+            .add(0, 2, 5, Rational.ONE.negate())
+            .add(0, 4, 6, Rational.ONE.negate())
+            .add(1, 2, 4, Rational.ONE)
+            .add(1, 5, 6, Rational.ONE.negate())
+            .add(2, 3, 6, Rational.ONE);
+    justifyInvalidBuilder(builder);
+  }
+
+  @Test
+  public void moreValidCases() {
+    MalcevStructureConstants sc =
+        new Builder(7)
+            .add(0, 1, 2, Rational.ONE)
+            .add(1, 2, 6, Rational.ONE)
+            .add(3, 4, 5, Rational.ONE)
+            .add(3, 5, 6, Rational.ONE)
+            .add(0, 4, 6, Rational.ONE)
+            .build();
+    jacobi(sc);
+
+    sc =
+        new Builder(7)
+            .add(0, 1, 3, Rational.ONE)
+            .add(0, 2, 5, Rational.ONE.negate())
+            .add(0, 4, 6, Rational.ONE.negate())
+            .add(1, 2, 4, Rational.ONE)
+            .add(1, 5, 6, Rational.ONE.negate())
+            .add(2, 3, 6, new Rational(2))
+            .build();
+    jacobi(sc);
   }
 }

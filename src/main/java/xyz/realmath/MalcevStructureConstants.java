@@ -1,7 +1,6 @@
 package xyz.realmath;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
@@ -10,17 +9,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/** Structure constants of a nilpotent Lie algebra in a Malcev basis. */
 @Immutable
-public final class StructureConstants {
+public class MalcevStructureConstants {
   private final int dim;
   private final ImmutableMap<Triple, Rational> map;
 
-  private StructureConstants(int dim, ImmutableMap<Triple, Rational> map) {
+  private MalcevStructureConstants(int dim, ImmutableMap<Triple, Rational> map) {
     this.dim = dim;
     this.map = map;
   }
 
-  public Rational get(int i, int j, int k) {
+  Rational get(int i, int j, int k) {
     checkArgument(i < dim, "i < dim");
     checkArgument(j < dim, "j < dim");
     checkArgument(k < dim, "k < dim");
@@ -42,13 +42,11 @@ public final class StructureConstants {
     return Rational.ZERO;
   }
 
-  public int getDim() {
+  int dim() {
     return dim;
   }
 
-  public Rational[] lieBracket(Rational[] left, Rational[] right) {
-    checkNotNull(left, "left");
-    checkNotNull(right, "right");
+  Tuple lieBracket(Tuple left, Tuple right) {
     checkArgument(left.length == dim, "left.length != dim");
     checkArgument(right.length == dim, "right.length != dim");
 
@@ -58,12 +56,12 @@ public final class StructureConstants {
       retVal[k] = Rational.ZERO;
       for (int i = 0; i < dim; i++) {
         for (int j = 0; j < dim; j++) {
-          retVal[k] = retVal[k].add(left[i].multiply(right[j]).multiply(get(i, j, k)));
+          retVal[k] = retVal[k].add(left.get(i).multiply(right.get(j)).multiply(get(i, j, k)));
         }
       }
     }
 
-    return retVal;
+    return new Tuple(retVal);
   }
 
   private void validate() {
@@ -94,7 +92,7 @@ public final class StructureConstants {
     final int k;
 
     JacobiException(int i, int j, int k) {
-      super("Jacobi identity not satisfied.");
+      super("Jacobi identity not satisfied: " + i + ", " + j + ", " + k);
       this.i = i;
       this.j = j;
       this.k = k;
@@ -122,16 +120,15 @@ public final class StructureConstants {
       return this;
     }
 
-    public StructureConstants build() {
-      StructureConstants retVal = new StructureConstants(dim, ImmutableMap.copyOf(map));
+    public MalcevStructureConstants build() {
+      MalcevStructureConstants retVal = new MalcevStructureConstants(dim, ImmutableMap.copyOf(map));
       retVal.validate();
       return retVal;
     }
 
     @VisibleForTesting
-    StructureConstants buildForTest() {
-      StructureConstants retVal = new StructureConstants(dim, ImmutableMap.copyOf(map));
-      return retVal;
+    MalcevStructureConstants buildForTest() {
+      return new MalcevStructureConstants(dim, ImmutableMap.copyOf(map));
     }
   }
 

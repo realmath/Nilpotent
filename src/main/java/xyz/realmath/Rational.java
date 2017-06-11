@@ -6,7 +6,7 @@ import com.google.errorprone.annotations.Immutable;
 import java.math.BigInteger;
 
 @Immutable
-public class Rational {
+public final class Rational {
   public static final Rational ZERO = new Rational(BigInteger.ZERO, BigInteger.ONE);
   public static final Rational ONE = new Rational(BigInteger.ONE, BigInteger.ONE);
 
@@ -34,6 +34,14 @@ public class Rational {
     denom = BigInteger.ONE;
   }
 
+  public static Rational factorial(int n) {
+    Rational retVal = Rational.ONE;
+    for (int i = 1; i <= n; i++) {
+      retVal = retVal.multiply(new Rational(i));
+    }
+    return retVal;
+  }
+
   @Override
   public String toString() {
     if (denom.equals(BigInteger.ONE)) {
@@ -57,8 +65,7 @@ public class Rational {
   }
 
   public Rational negate() {
-    Rational retVal = new Rational(numer.negate(), denom);
-    return retVal;
+    return new Rational(numer.negate(), denom);
   }
 
   public Rational reciprocal() {
@@ -71,6 +78,20 @@ public class Rational {
 
   public Rational dividedBy(Rational other) {
     return this.multiply(other.reciprocal());
+  }
+
+  public Rational pow(int n) {
+    if (n <= 0) {
+      checkArgument(!this.equals(Rational.ZERO), "undefined");
+    }
+    if (n < 0) {
+      return pow(-n).reciprocal();
+    }
+    Rational retVal = Rational.ONE;
+    for (int i = 0; i < n; i++) {
+      retVal = retVal.multiply(this);
+    }
+    return retVal;
   }
 
   @Override
