@@ -4,9 +4,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.errorprone.annotations.Immutable;
 import java.math.BigInteger;
+import xyz.realmath.nilpotent.Field;
 
 @Immutable
-public final class Rational {
+public final class Rational implements Algebra<Rational, Rational>, Field<Rational> {
   public static final Rational ZERO = new Rational(BigInteger.ZERO, BigInteger.ONE);
   public static final Rational ONE = new Rational(BigInteger.ONE, BigInteger.ONE);
 
@@ -34,6 +35,10 @@ public final class Rational {
     denom = BigInteger.ONE;
   }
 
+  public Rational(int n, int d) {
+    this(BigInteger.valueOf(n), BigInteger.valueOf(d));
+  }
+
   public static Rational factorial(int n) {
     Rational retVal = Rational.ONE;
     for (int i = 1; i <= n; i++) {
@@ -51,6 +56,7 @@ public final class Rational {
     }
   }
 
+  @Override
   public Rational add(Rational by) {
     BigInteger newDenom = denom.multiply(by.denom);
     BigInteger newNumer = numer.multiply(by.denom);
@@ -60,24 +66,19 @@ public final class Rational {
     return new Rational(newNumer, newDenom);
   }
 
+  @Override
   public Rational multiply(Rational by) {
     return new Rational(numer.multiply(by.numer), denom.multiply(by.denom));
   }
 
+  @Override
   public Rational negate() {
     return new Rational(numer.negate(), denom);
   }
 
+  @Override
   public Rational reciprocal() {
     return new Rational(denom, numer);
-  }
-
-  public Rational minus(Rational other) {
-    return this.add(other.negate());
-  }
-
-  public Rational dividedBy(Rational other) {
-    return this.multiply(other.reciprocal());
   }
 
   public Rational pow(int n) {

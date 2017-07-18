@@ -1,6 +1,9 @@
-package xyz.realmath;
+package xyz.realmath.nilpotent;
 
 import com.google.errorprone.annotations.Immutable;
+import xyz.realmath.Algebra;
+import xyz.realmath.Rational;
+import xyz.realmath.Tuple;
 
 @Immutable
 public class NilpotentLieAlg {
@@ -10,7 +13,7 @@ public class NilpotentLieAlg {
     this.structureConstants = structureConstants;
   }
 
-  public Tuple lieBracket(Tuple left, Tuple right) {
+  public <T extends Algebra<Rational, T>> Tuple<T> lieBracket(Tuple<T> left, Tuple<T> right) {
     return structureConstants.lieBracket(left, right);
   }
 

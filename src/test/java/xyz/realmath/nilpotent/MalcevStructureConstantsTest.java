@@ -1,4 +1,4 @@
-package xyz.realmath;
+package xyz.realmath.nilpotent;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNot.not;
@@ -13,8 +13,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import xyz.realmath.MalcevStructureConstants.Builder;
-import xyz.realmath.MalcevStructureConstants.JacobiException;
+import xyz.realmath.ArrayTuple;
+import xyz.realmath.Rational;
+import xyz.realmath.Tuple;
+import xyz.realmath.nilpotent.MalcevStructureConstants.Builder;
+import xyz.realmath.nilpotent.MalcevStructureConstants.JacobiException;
 
 @RunWith(JUnit4.class)
 public class MalcevStructureConstantsTest {
@@ -79,13 +82,13 @@ public class MalcevStructureConstantsTest {
     int dim = sc.dim();
     Rational[] retVal = new Rational[dim];
 
-    Tuple tx = new Tuple(x);
-    Tuple ty = new Tuple(y);
-    Tuple tz = new Tuple(z);
+    ArrayTuple<Rational> tx = new ArrayTuple<>(x);
+    ArrayTuple<Rational> ty = new ArrayTuple<>(y);
+    ArrayTuple<Rational> tz = new ArrayTuple<>(z);
 
-    Tuple jacobi1 = sc.lieBracket(sc.lieBracket(tx, ty), tz);
-    Tuple jacobi2 = sc.lieBracket(sc.lieBracket(ty, tz), tx);
-    Tuple jacobi3 = sc.lieBracket(sc.lieBracket(tz, tx), ty);
+    Tuple<Rational> jacobi1 = sc.lieBracket(sc.lieBracket(tx, ty), tz);
+    Tuple<Rational> jacobi2 = sc.lieBracket(sc.lieBracket(ty, tz), tx);
+    Tuple<Rational> jacobi3 = sc.lieBracket(sc.lieBracket(tz, tx), ty);
     for (int m = 0; m < dim; m++) {
       retVal[m] = jacobi1.get(m).add(jacobi2.get(m)).add(jacobi3.get(m));
     }

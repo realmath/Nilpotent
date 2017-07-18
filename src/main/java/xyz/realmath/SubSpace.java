@@ -15,21 +15,22 @@ public final class SubSpace {
   private final int embeddingDim;
 
   @SuppressWarnings("Immutable") // only written in constructor
-  private final Map<Tuple, Integer> basis;
+  private final Map<Tuple<Rational>, Integer> basis;
 
-  private SubSpace(int embeddingDim, Map<Tuple, Integer> basis) {
+  private SubSpace(int embeddingDim, Map<Tuple<Rational>, Integer> basis) {
     checkArgument(embeddingDim >= 0, "embeddingDim < 0");
     this.embeddingDim = embeddingDim;
-    this.basis = basis;
+    this.basis = new HashMap<>(basis);
   }
 
-  public static SubSpace span(Tuple... vectors) {
+  @SafeVarargs
+  public static SubSpace span(Tuple<Rational>... vectors) {
     checkArgument(vectors.length > 0, "require at least one vector");
-    SubSpace retVal = zeroDim(vectors[0].length);
+    SubSpace retVal = zeroDim(vectors[0].dim());
     retVal = retVal.spanWith(vectors[0]);
-    for (Tuple v : vectors) {
+    for (Tuple<Rational> v : vectors) {
       checkNotNull(v, "vector");
-      checkArgument(v.length == retVal.embeddingDim, "vectors with different dim");
+      checkArgument(v.dim() == retVal.embeddingDim, "vectors with different dim");
       retVal = retVal.spanWith(v);
     }
     return retVal;
@@ -39,27 +40,28 @@ public final class SubSpace {
     return new SubSpace(embeddingDim, Collections.emptyMap());
   }
 
-  public Set<Tuple> basis() {
+  public Set<Tuple<Rational>> basis() {
     return Collections.unmodifiableSet(basis.keySet());
   }
 
-  public boolean contains(Tuple vector) {
-    checkArgument(vector.length == embeddingDim, "vector.length != embedding dim");
+  public boolean contains(Tuple<Rational> vector) {
+    checkArgument(vector.dim() == embeddingDim, "vector.length != embedding dim");
+    // TODO: ZERO
     return reduce(vector).equals(vector.multiply(Rational.ZERO));
   }
 
-  private Tuple reduce(Tuple vector) {
-    for (Map.Entry<Tuple, Integer> entry : basis.entrySet()) {
+  private Tuple<Rational> reduce(Tuple<Rational> vector) {
+    for (Map.Entry<Tuple<Rational>, Integer> entry : basis.entrySet()) {
       Integer idx = entry.getValue();
       Rational v = vector.get(idx);
       if (!v.equals(Rational.ZERO)) {
-        vector = vector.minus(entry.getKey().multiply(v));
+        vector = entry.getKey().multiply(v).multiply(Rational.ONE.negate()).add(vector);
       }
     }
     return vector;
   }
 
-  public SubSpace spanWith(Tuple vector) {
+  private SubSpace spanWith(Tuple<Rational> vector) {
     vector = reduce(vector);
 
     // normalize vector
@@ -76,14 +78,14 @@ public final class SubSpace {
     }
 
     // normalize old base vectors
-    Map<Tuple, Integer> newBasis = new HashMap<>();
+    Map<Tuple<Rational>, Integer> newBasis = new HashMap<>();
     newBasis.put(vector, i);
 
-    for (Map.Entry<Tuple, Integer> entry : basis.entrySet()) {
-      Tuple t1 = entry.getKey();
+    for (Map.Entry<Tuple<Rational>, Integer> entry : basis.entrySet()) {
+      Tuple<Rational> t1 = entry.getKey();
       Rational v = entry.getKey().get(i);
       if (!v.equals(Rational.ZERO)) {
-        t1 = entry.getKey().minus(vector.multiply(v));
+        t1 = vector.multiply(v).multiply(Rational.ONE.negate()).add(entry.getKey());
       }
       newBasis.put(t1, entry.getValue());
     }
@@ -107,13 +109,13 @@ public final class SubSpace {
       return false;
     }
 
-    for (Tuple vector : basis.keySet()) {
+    for (Tuple<Rational> vector : basis.keySet()) {
       if (!that.contains(vector)) {
         return false;
       }
     }
 
-    for (Tuple vector : that.basis.keySet()) {
+    for (Tuple<Rational> vector : that.basis.keySet()) {
       if (!contains(vector)) {
         return false;
       }

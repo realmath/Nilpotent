@@ -1,13 +1,19 @@
-package xyz.realmath;
+package xyz.realmath.nilpotent;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.Immutable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+import xyz.realmath.Algebra;
+import xyz.realmath.ArrayTuple;
+import xyz.realmath.Rational;
+import xyz.realmath.Triple;
+import xyz.realmath.Tuple;
 
 /** Structure constants of a nilpotent Lie algebra in a Malcev basis. */
 @Immutable
@@ -46,22 +52,27 @@ public class MalcevStructureConstants {
     return dim;
   }
 
-  Tuple lieBracket(Tuple left, Tuple right) {
-    checkArgument(left.length == dim, "left.length != dim");
-    checkArgument(right.length == dim, "right.length != dim");
+  <T extends Algebra<Rational, T>> Tuple<T> lieBracket(Tuple<T> left, Tuple<T> right) {
+    checkArgument(left.dim() == dim, "left.length != dim");
+    checkArgument(right.dim() == dim, "right.length != dim");
 
-    Rational[] retVal = new Rational[dim];
+    ArrayList<T> retVals = new ArrayList<>();
 
     for (int k = 0; k < dim; k++) {
-      retVal[k] = Rational.ZERO;
       for (int i = 0; i < dim; i++) {
         for (int j = 0; j < dim; j++) {
-          retVal[k] = retVal[k].add(left.get(i).multiply(right.get(j)).multiply(get(i, j, k)));
+          T summand = left.get(i).multiply(right.get(j)).multiply(get(i, j, k));
+          checkState(retVals.size() >= k);
+          if (retVals.size() == k) {
+            retVals.add(summand);
+          } else {
+            retVals.set(k, retVals.get(k).add(summand));
+          }
         }
       }
     }
 
-    return new Tuple(retVal);
+    return new ArrayTuple<T>(retVals);
   }
 
   private void validate() {
@@ -129,36 +140,6 @@ public class MalcevStructureConstants {
     @VisibleForTesting
     MalcevStructureConstants buildForTest() {
       return new MalcevStructureConstants(dim, ImmutableMap.copyOf(map));
-    }
-  }
-
-  @Immutable
-  private static class Triple {
-    final int i;
-    final int j;
-    final int k;
-
-    Triple(int i, int j, int k) {
-      this.i = i;
-      this.j = j;
-      this.k = k;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (this == obj) {
-        return true;
-      }
-      if (obj == null || getClass() != obj.getClass()) {
-        return false;
-      }
-      Triple that = (Triple) obj;
-      return i == that.i && j == that.j && k == that.k;
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(i, j, k);
     }
   }
 }

@@ -14,12 +14,18 @@ public class SubSpaceTest {
 
   @Test
   public void span() {
-    Tuple t1 = new Tuple(new Rational(0), new Rational(1), new Rational(2), new Rational(3));
-    Tuple t2 = new Tuple(new Rational(0), new Rational(2), new Rational(4), new Rational(6));
-    Tuple t3 = new Tuple(new Rational(1), new Rational(1), new Rational(2), new Rational(3));
-    Tuple t4 = new Tuple(new Rational(1), new Rational(1), new Rational(1), new Rational(3));
-    Tuple t5 = new Tuple(new Rational(1), new Rational(1), new Rational(1), new Rational(1));
-    Tuple t6 = new Tuple(new Rational(7), new Rational(-1), new Rational(3), new Rational(19));
+    ArrayTuple<Rational> t1 =
+        new ArrayTuple<>(new Rational(0), new Rational(1), new Rational(2), new Rational(3));
+    ArrayTuple<Rational> t2 =
+        new ArrayTuple<>(new Rational(0), new Rational(2), new Rational(4), new Rational(6));
+    ArrayTuple<Rational> t3 =
+        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(2), new Rational(3));
+    ArrayTuple<Rational> t4 =
+        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(1), new Rational(3));
+    ArrayTuple<Rational> t5 =
+        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(1), new Rational(1));
+    ArrayTuple<Rational> t6 =
+        new ArrayTuple<>(new Rational(7), new Rational(-1), new Rational(3), new Rational(19));
 
     SubSpace s = SubSpace.span(t1);
     assertEquals(1, s.dim());
@@ -49,23 +55,29 @@ public class SubSpaceTest {
   @Test
   public void zeroEmbedding() {
     SubSpace s = SubSpace.zeroDim(0);
-    assertTrue(s.contains(new Tuple()));
+    assertTrue(s.contains(new ArrayTuple<>()));
     assertEquals(0, s.dim());
     assertEquals(s.dim(), s.basis().size());
   }
 
   @Test
   public void contains() {
-    Tuple t1 = new Tuple(new Rational(0), new Rational(1), new Rational(2), new Rational(3));
-    Tuple t2 = new Tuple(new Rational(0), new Rational(2), new Rational(4), new Rational(6));
-    Tuple t3 = new Tuple(new Rational(1), new Rational(1), new Rational(2), new Rational(3));
-    Tuple t4 = new Tuple(new Rational(1), new Rational(1), new Rational(1), new Rational(3));
-    Tuple t5 = new Tuple(new Rational(1), new Rational(1), new Rational(1), new Rational(1));
-    Tuple t6 = new Tuple(new Rational(7), new Rational(-1), new Rational(3), new Rational(19));
+    ArrayTuple<Rational> t1 =
+        new ArrayTuple<>(new Rational(0), new Rational(1), new Rational(2), new Rational(3));
+    ArrayTuple<Rational> t2 =
+        new ArrayTuple<>(new Rational(0), new Rational(2), new Rational(4), new Rational(6));
+    ArrayTuple<Rational> t3 =
+        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(2), new Rational(3));
+    ArrayTuple<Rational> t4 =
+        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(1), new Rational(3));
+    ArrayTuple<Rational> t5 =
+        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(1), new Rational(1));
+    ArrayTuple<Rational> t6 =
+        new ArrayTuple<>(new Rational(7), new Rational(-1), new Rational(3), new Rational(19));
 
     SubSpace s = SubSpace.span(t1);
     assertTrue(s.contains(t2));
-    for (Tuple t : s.basis()) {
+    for (Tuple<Rational> t : s.basis()) {
       assertTrue(s.contains(t));
     }
 
@@ -73,31 +85,37 @@ public class SubSpaceTest {
     assertTrue(s.contains(t2));
     assertTrue(s.contains(t3));
     assertFalse(s.contains(t4));
-    for (Tuple t : s.basis()) {
+    for (Tuple<Rational> t : s.basis()) {
       assertTrue(s.contains(t));
     }
 
     s = SubSpace.span(t1, t2, t3, t4);
     assertFalse(s.contains(t5));
-    for (Tuple t : s.basis()) {
+    for (Tuple<Rational> t : s.basis()) {
       assertTrue(s.contains(t));
     }
 
     s = SubSpace.span(t1, t2, t3, t4, t5);
     assertTrue(s.contains(t6));
-    for (Tuple t : s.basis()) {
+    for (Tuple<Rational> t : s.basis()) {
       assertTrue(s.contains(t));
     }
   }
 
   @Test
   public void dim() {
-    Tuple t1 = new Tuple(new Rational(0), new Rational(1), new Rational(2), new Rational(3));
-    Tuple t2 = new Tuple(new Rational(0), new Rational(2), new Rational(4), new Rational(6));
-    Tuple t3 = new Tuple(new Rational(1), new Rational(1), new Rational(2), new Rational(3));
-    Tuple t4 = new Tuple(new Rational(1), new Rational(1), new Rational(1), new Rational(3));
-    Tuple t5 = new Tuple(new Rational(1), new Rational(1), new Rational(1), new Rational(1));
-    Tuple t6 = new Tuple(new Rational(7), new Rational(-1), new Rational(3), new Rational(19));
+    ArrayTuple<Rational> t1 =
+        new ArrayTuple<>(new Rational(0), new Rational(1), new Rational(2), new Rational(3));
+    ArrayTuple<Rational> t2 =
+        new ArrayTuple<>(new Rational(0), new Rational(2), new Rational(4), new Rational(6));
+    ArrayTuple<Rational> t3 =
+        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(2), new Rational(3));
+    ArrayTuple<Rational> t4 =
+        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(1), new Rational(3));
+    ArrayTuple<Rational> t5 =
+        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(1), new Rational(1));
+    ArrayTuple<Rational> t6 =
+        new ArrayTuple<>(new Rational(7), new Rational(-1), new Rational(3), new Rational(19));
 
     SubSpace s = SubSpace.span(t1);
     assertEquals(1, s.dim());
@@ -133,10 +151,10 @@ public class SubSpaceTest {
     assertEquals(s1, s2);
     assertNotEquals(s1, s3);
 
-    Tuple t1 = new Tuple(RationalArrays.base(3, 0));
-    Tuple t2 = new Tuple(RationalArrays.base(3, 1));
-    Tuple t3 = new Tuple(RationalArrays.base(3, 2));
-    Tuple t4 = new Tuple(Rational.ONE, Rational.ONE, Rational.ONE);
+    ArrayTuple<Rational> t1 = new ArrayTuple<>(RationalArrays.base(3, 0));
+    ArrayTuple<Rational> t2 = new ArrayTuple<>(RationalArrays.base(3, 1));
+    ArrayTuple<Rational> t3 = new ArrayTuple<>(RationalArrays.base(3, 2));
+    ArrayTuple<Rational> t4 = new ArrayTuple<>(Rational.ONE, Rational.ONE, Rational.ONE);
 
     SubSpace s4 = SubSpace.span(t1, t2, t3);
     SubSpace s5 = SubSpace.span(t1, t2, t4);
