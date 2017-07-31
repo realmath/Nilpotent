@@ -33,66 +33,65 @@ public class ArrayTupleTest {
 
   @Test
   public void iterator() {
-    ArrayTuple<Rational> t = new ArrayTuple<>(Rational.ONE, new Rational(2), new Rational(3));
+    ArrayTuple<Rational> t = ArrayTuples.rationalTuple(1, 2, 3);
     int i = 1;
     for (Rational r : t) {
-      assertEquals(new Rational(i), r);
+      assertEquals(Rational.valueOf(i), r);
       i++;
     }
   }
 
   @Test
   public void get() {
-    ArrayTuple<Rational> t1 = new ArrayTuple<>(Rational.ONE, Rational.ZERO, Rational.ONE);
-    assertEquals(Rational.ONE, t1.get(2));
+    ArrayTuple<Rational> t1 = ArrayTuples.rationalTuple(1, 0, 1);
+    assertEquals(Rational.ONE, t1[2]);
   }
 
   @Test
   public void add() {
     ArrayTuple<Rational> t = new ArrayTuple<>();
-    assertEquals(t, t.add(t));
+    assertEquals(t, t + t);
 
-    ArrayTuple<Rational> t1 = new ArrayTuple<>(Rational.ONE, Rational.ZERO, Rational.ONE);
-    ArrayTuple<Rational> t2 = new ArrayTuple<>(Rational.ZERO, Rational.ONE, Rational.ONE);
-    ArrayTuple<Rational> t3 = new ArrayTuple<>(Rational.ONE, Rational.ONE, new Rational(2));
+    ArrayTuple<Rational> t1 = ArrayTuples.rationalTuple(1, 0, 1);
+    ArrayTuple<Rational> t2 = ArrayTuples.rationalTuple(0, 1, 1);
+    ArrayTuple<Rational> t3 = ArrayTuples.rationalTuple(1, 1, 2);
 
-    assertEquals(t3, t1.add(t2));
+    assertEquals(t3, t1 + t2);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void addWrongDim() {
-    ArrayTuple<Rational> t1 = new ArrayTuple<>(Rational.ONE);
-    ArrayTuple<Rational> t2 = new ArrayTuple<>(Rational.ZERO, Rational.ZERO);
+    ArrayTuple<Rational> t1 = ArrayTuples.rationalTuple(1);
+    ArrayTuple<Rational> t2 = ArrayTuples.rationalTuple(0, 0);
     t1.add(t2);
   }
 
   @Test
   public void minus() {
-    ArrayTuple<Rational> t = new ArrayTuple<>();
-    assertEquals(t, t.minus(t));
+    Tuple<Rational> t = new ArrayTuple<>();
+    assertEquals(t, t - t);
 
-    ArrayTuple<Rational> t1 = new ArrayTuple<>(Rational.ONE, Rational.ZERO, Rational.ONE);
-    ArrayTuple<Rational> t2 = new ArrayTuple<>(Rational.ZERO, Rational.ONE, Rational.ONE);
-    ArrayTuple<Rational> t3 = new ArrayTuple<>(Rational.ONE, Rational.ONE.negate(), Rational.ZERO);
+    Tuple<Rational> t1 = ArrayTuples.rationalTuple(1, 0, 1);
+    Tuple<Rational> t2 = ArrayTuples.rationalTuple(0, 1, 1);
+    Tuple<Rational> t3 = ArrayTuples.rationalTuple(1, -1, 0);
 
-    assertEquals(t3, t1.minus(t2));
+    assertEquals(t3, t1 - t2);
   }
 
   @Test
   public void multiply() {
     ArrayTuple<Rational> t = new ArrayTuple<>();
-    assertEquals(t, t.multiply(new Rational(3)));
+    assertEquals(t, t * Rational.valueOf(3));
 
-    ArrayTuple<Rational> t1 = new ArrayTuple<>(Rational.ONE, Rational.ZERO, Rational.ONE);
-    ArrayTuple<Rational> t3 = new ArrayTuple<>(new Rational(3), Rational.ZERO, new Rational(3));
-
-    assertEquals(t3, t1.multiply((new Rational(3))));
+    ArrayTuple<Rational> t1 = ArrayTuples.rationalTuple(1, 0, 1);
+    ArrayTuple<Rational> t3 = ArrayTuples.rationalTuple(3, 0, 3);
+    assertEquals(t3, t1 * Rational.valueOf(3));
   }
 
   @Test
   public void hashCodeTest() {
-    ArrayTuple<Rational> t1 = new ArrayTuple<>(Rational.ONE, Rational.ZERO, Rational.ONE);
-    ArrayTuple<Rational> t2 = new ArrayTuple<>(Rational.ONE, Rational.ZERO, Rational.ONE);
+    ArrayTuple<Rational> t1 = ArrayTuples.rationalTuple(1, 0, 1);
+    ArrayTuple<Rational> t2 = ArrayTuples.rationalTuple(1, 0, 1);
 
     assertEquals(t1.hashCode(), t2.hashCode());
   }

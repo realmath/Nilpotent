@@ -7,7 +7,7 @@ public interface Tuple<T extends Algebra<Rational, T>> extends Iterable<T> {
 
   Tuple<T> multiply(Rational r);
 
-  Tuple<T> minus(Tuple<T> tuple);
+  Tuple<T> subtract(Tuple<T> tuple);
 
   Tuple<T> negate();
 

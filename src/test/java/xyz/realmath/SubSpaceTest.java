@@ -15,17 +15,19 @@ public class SubSpaceTest {
   @Test
   public void span() {
     ArrayTuple<Rational> t1 =
-        new ArrayTuple<>(new Rational(0), new Rational(1), new Rational(2), new Rational(3));
+        new ArrayTuple<>(Rational.ZERO, Rational.ONE, Rational.valueOf(2), Rational.valueOf(3));
     ArrayTuple<Rational> t2 =
-        new ArrayTuple<>(new Rational(0), new Rational(2), new Rational(4), new Rational(6));
+        new ArrayTuple<>(
+            Rational.ZERO, Rational.valueOf(2), Rational.valueOf(4), Rational.valueOf(6));
     ArrayTuple<Rational> t3 =
-        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(2), new Rational(3));
+        new ArrayTuple<>(Rational.ONE, Rational.ONE, Rational.valueOf(2), Rational.valueOf(3));
     ArrayTuple<Rational> t4 =
-        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(1), new Rational(3));
+        new ArrayTuple<>(Rational.ONE, Rational.ONE, Rational.ONE, Rational.valueOf(3));
     ArrayTuple<Rational> t5 =
-        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(1), new Rational(1));
+        new ArrayTuple<>(Rational.ONE, Rational.ONE, Rational.ONE, Rational.ONE);
     ArrayTuple<Rational> t6 =
-        new ArrayTuple<>(new Rational(7), new Rational(-1), new Rational(3), new Rational(19));
+        new ArrayTuple<>(
+            Rational.valueOf(7), Rational.valueOf(-1), Rational.valueOf(3), Rational.valueOf(19));
 
     SubSpace s = SubSpace.span(t1);
     assertEquals(1, s.dim());
@@ -63,17 +65,23 @@ public class SubSpaceTest {
   @Test
   public void contains() {
     ArrayTuple<Rational> t1 =
-        new ArrayTuple<>(new Rational(0), new Rational(1), new Rational(2), new Rational(3));
+        new ArrayTuple<>(
+            Rational.valueOf(0), Rational.valueOf(1), Rational.valueOf(2), Rational.valueOf(3));
     ArrayTuple<Rational> t2 =
-        new ArrayTuple<>(new Rational(0), new Rational(2), new Rational(4), new Rational(6));
+        new ArrayTuple<>(
+            Rational.valueOf(0), Rational.valueOf(2), Rational.valueOf(4), Rational.valueOf(6));
     ArrayTuple<Rational> t3 =
-        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(2), new Rational(3));
+        new ArrayTuple<>(
+            Rational.valueOf(1), Rational.valueOf(1), Rational.valueOf(2), Rational.valueOf(3));
     ArrayTuple<Rational> t4 =
-        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(1), new Rational(3));
+        new ArrayTuple<>(
+            Rational.valueOf(1), Rational.valueOf(1), Rational.valueOf(1), Rational.valueOf(3));
     ArrayTuple<Rational> t5 =
-        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(1), new Rational(1));
+        new ArrayTuple<>(
+            Rational.valueOf(1), Rational.valueOf(1), Rational.valueOf(1), Rational.valueOf(1));
     ArrayTuple<Rational> t6 =
-        new ArrayTuple<>(new Rational(7), new Rational(-1), new Rational(3), new Rational(19));
+        new ArrayTuple<>(
+            Rational.valueOf(7), Rational.valueOf(-1), Rational.valueOf(3), Rational.valueOf(19));
 
     SubSpace s = SubSpace.span(t1);
     assertTrue(s.contains(t2));
@@ -105,17 +113,23 @@ public class SubSpaceTest {
   @Test
   public void dim() {
     ArrayTuple<Rational> t1 =
-        new ArrayTuple<>(new Rational(0), new Rational(1), new Rational(2), new Rational(3));
+        new ArrayTuple<>(
+            Rational.valueOf(0), Rational.valueOf(1), Rational.valueOf(2), Rational.valueOf(3));
     ArrayTuple<Rational> t2 =
-        new ArrayTuple<>(new Rational(0), new Rational(2), new Rational(4), new Rational(6));
+        new ArrayTuple<>(
+            Rational.valueOf(0), Rational.valueOf(2), Rational.valueOf(4), Rational.valueOf(6));
     ArrayTuple<Rational> t3 =
-        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(2), new Rational(3));
+        new ArrayTuple<>(
+            Rational.valueOf(1), Rational.valueOf(1), Rational.valueOf(2), Rational.valueOf(3));
     ArrayTuple<Rational> t4 =
-        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(1), new Rational(3));
+        new ArrayTuple<>(
+            Rational.valueOf(1), Rational.valueOf(1), Rational.valueOf(1), Rational.valueOf(3));
     ArrayTuple<Rational> t5 =
-        new ArrayTuple<>(new Rational(1), new Rational(1), new Rational(1), new Rational(1));
+        new ArrayTuple<>(
+            Rational.valueOf(1), Rational.valueOf(1), Rational.valueOf(1), Rational.valueOf(1));
     ArrayTuple<Rational> t6 =
-        new ArrayTuple<>(new Rational(7), new Rational(-1), new Rational(3), new Rational(19));
+        new ArrayTuple<>(
+            Rational.valueOf(7), Rational.valueOf(-1), Rational.valueOf(3), Rational.valueOf(19));
 
     SubSpace s = SubSpace.span(t1);
     assertEquals(1, s.dim());

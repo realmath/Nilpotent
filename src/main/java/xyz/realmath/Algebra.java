@@ -1,13 +1,12 @@
 package xyz.realmath;
 
-import xyz.realmath.nilpotent.Field;
+public interface Algebra<F extends Field<F>, T extends Algebra<F, T>> extends Ring<T> {
 
-public interface Algebra<F extends Field<F>, T extends Algebra<F, T>> {
-  T add(T t);
+  T multiply(F f);
 
-  T negate();
+  default T divide(F f) {
+    return this * (f.reciprocal());
+  }
 
-  T multiply(T t);
-
-  T multiply(F r);
+  T divide(int i);
 }

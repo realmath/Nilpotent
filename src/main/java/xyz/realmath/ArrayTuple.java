@@ -43,7 +43,7 @@ public class ArrayTuple<T extends Algebra<Rational, T>> implements Tuple<T> {
 
   @Override
   public T get(int idx) {
-    return ts.get(idx);
+    return ts[idx];
   }
 
   @Override
@@ -52,20 +52,20 @@ public class ArrayTuple<T extends Algebra<Rational, T>> implements Tuple<T> {
 
     ArrayList<T> sums = new ArrayList<>();
     for (int i = 0; i < length; i++) {
-      sums.add(ts.get(i).add(tuple.get(i)));
+      sums.add(ts[i] + tuple[i]);
     }
 
     return new ArrayTuple<>(sums);
   }
 
   @Override
-  public Tuple<T> minus(Tuple<T> tuple) {
+  public Tuple<T> subtract(Tuple<T> tuple) {
 
     checkArgument(tuple.dim() == length, "tuple.length != length");
 
     ArrayList<T> sums = new ArrayList<>();
     for (int i = 0; i < length; i++) {
-      sums.add(ts.get(i).add(tuple.get(i).negate()));
+      sums.add(ts[i] - tuple[i]);
     }
 
     return new ArrayTuple<>(sums);
@@ -75,6 +75,7 @@ public class ArrayTuple<T extends Algebra<Rational, T>> implements Tuple<T> {
   public Tuple<T> negate() {
     ArrayList<T> retVals = new ArrayList<>();
     for (T t : ts) {
+      // TODO: fix javaoo
       retVals.add(t.negate());
     }
     return new ArrayTuple<>(retVals);
@@ -84,7 +85,7 @@ public class ArrayTuple<T extends Algebra<Rational, T>> implements Tuple<T> {
   public Tuple<T> multiply(Rational r) {
     ArrayList<T> prods = new ArrayList<>();
     for (int i = 0; i < length; i++) {
-      prods.add(ts.get(i).multiply(r));
+      prods.add(ts[i] * r);
     }
 
     return new ArrayTuple<>(prods);
@@ -106,7 +107,7 @@ public class ArrayTuple<T extends Algebra<Rational, T>> implements Tuple<T> {
         if (i > ts.size()) {
           throw new NoSuchElementException();
         }
-        return ts.get(i - 1);
+        return ts[i - 1];
       }
     };
   }

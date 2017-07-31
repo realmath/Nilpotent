@@ -306,7 +306,7 @@ public class MalcevStructureConstantsTest {
             .add(0, 4, 6, Rational.ONE.negate())
             .add(1, 2, 4, Rational.ONE)
             .add(1, 5, 6, Rational.ONE.negate())
-            .add(2, 3, 6, new Rational(2))
+            .add(2, 3, 6, Rational.valueOf(2))
             .build();
     jacobi(sc);
   }

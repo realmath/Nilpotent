@@ -15,16 +15,16 @@ public class MultiVarPolynomialTest {
     MultiVarPolynomial pol1 =
         new PolBuilder()
             .add(new TermBuilder().pow(0, 2).pow(1, 3).build(), Rational.ONE)
-            .add(new TermBuilder().pow(0, 3).pow(1, 2).build(), new Rational(2))
-            .add(new TermBuilder().pow(0, 1).pow(1, 3).build(), new Rational(3))
+            .add(new TermBuilder().pow(0, 3).pow(1, 2).build(), Rational.valueOf(2))
+            .add(new TermBuilder().pow(0, 1).pow(1, 3).build(), Rational.valueOf(3))
             .add(new TermBuilder().pow(4, 1).build(), Rational.ONE)
             .add(new TermBuilder().pow(6, 1).build(), Rational.ONE)
             .build();
     MultiVarPolynomial pol2 =
         new PolBuilder()
             .add(new TermBuilder().pow(1, 3).build(), Rational.ONE)
-            .add(new TermBuilder().pow(0, 3).pow(1, 2).build(), new Rational(5))
-            .add(new TermBuilder().pow(0, 1).pow(1, 3).build(), new Rational(-3))
+            .add(new TermBuilder().pow(0, 3).pow(1, 2).build(), Rational.valueOf(5))
+            .add(new TermBuilder().pow(0, 1).pow(1, 3).build(), Rational.valueOf(-3))
             .add(new TermBuilder().pow(5, 1).build(), Rational.ONE)
             .add(new TermBuilder().pow(6, 1).build(), Rational.ONE.negate())
             .build();
@@ -32,7 +32,7 @@ public class MultiVarPolynomialTest {
         new PolBuilder()
             .add(new TermBuilder().pow(1, 3).build(), Rational.ONE)
             .add(new TermBuilder().pow(0, 2).pow(1, 3).build(), Rational.ONE)
-            .add(new TermBuilder().pow(0, 3).pow(1, 2).build(), new Rational(7))
+            .add(new TermBuilder().pow(0, 3).pow(1, 2).build(), Rational.valueOf(7))
             .add(new TermBuilder().pow(4, 1).build(), Rational.ONE)
             .add(new TermBuilder().pow(5, 1).build(), Rational.ONE)
             .build();
@@ -51,7 +51,7 @@ public class MultiVarPolynomialTest {
     MultiVarPolynomial expected =
         new PolBuilder()
             .add(new TermBuilder().build(), Rational.ONE)
-            .add(new TermBuilder().pow(0, 1).build(), new Rational(2))
+            .add(new TermBuilder().pow(0, 1).build(), Rational.valueOf(2))
             .add(new TermBuilder().pow(0, 2).build(), Rational.ONE)
             .build();
     assertEquals(expected, pol.pow(2));

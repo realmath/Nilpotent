@@ -31,9 +31,9 @@ class Zassenhaus {
     }
     Tuple<MultiVarPolynomial> retVal;
     if (n <= 4) {
-      retVal = ff(1, n - 1).multiply(new Rational(n).reciprocal());
+      retVal = ff(1, n - 1).multiply(Rational.valueOf(n).reciprocal());
     } else {
-      retVal = ff((n - 1) / 2, n - 1).multiply(new Rational(n).reciprocal());
+      retVal = ff((n - 1) / 2, n - 1).multiply(Rational.valueOf(n).reciprocal());
     }
     zassenhause.put(n, retVal);
     return retVal;

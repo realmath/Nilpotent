@@ -23,6 +23,14 @@ public class MultiVarPolynomial implements Algebra<Rational, MultiVarPolynomial>
     this.monoids = monoids;
   }
 
+  public static MultiVarPolynomial valueOf(int i) {
+    return valueOf(Rational.valueOf(i));
+  }
+
+  public static MultiVarPolynomial valueOf(Rational rational) {
+    return new PolBuilder().add(Term.CONST_TERM, rational).build();
+  }
+
   @Override
   public MultiVarPolynomial add(MultiVarPolynomial pol) {
     PolBuilder builder = new PolBuilder();
@@ -57,8 +65,23 @@ public class MultiVarPolynomial implements Algebra<Rational, MultiVarPolynomial>
   }
 
   @Override
+  public MultiVarPolynomial multiply(int i) {
+    return this * Rational.valueOf(i);
+  }
+
+  @Override
+  public MultiVarPolynomial add(int i) {
+    return this + valueOf(i);
+  }
+
+  @Override
   public MultiVarPolynomial multiply(Rational r) {
     return multiply(new PolBuilder().add(new TermBuilder().build(), r).build());
+  }
+
+  @Override
+  public MultiVarPolynomial divide(int i) {
+    return this / Rational.valueOf(i);
   }
 
   public MultiVarPolynomial pow(int p) {
