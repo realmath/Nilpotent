@@ -2,7 +2,7 @@ package xyz.realmath;
 
 public interface AbelianGroup<T extends AbelianGroup<T>> {
   default boolean isZero() {
-    return this.equals(this + thisT());
+    return this.equals(this.add(thisT()));
   }
 
   T add(T t);
@@ -10,7 +10,7 @@ public interface AbelianGroup<T extends AbelianGroup<T>> {
   T negate();
 
   default T subtract(T t) {
-    return this + (-t);
+    return this.add(t.negate());
   }
 
   @SuppressWarnings("unchecked")

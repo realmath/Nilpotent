@@ -4,7 +4,7 @@ public final class ArrayTuples {
   public static ArrayTuple<Rational> rationalTuple(int... ints) {
     Rational[] rationals = new Rational[ints.length];
     for (int i = 0; i < ints.length; i++) {
-      rationals[i] = ints[i];
+      rationals[i] = Rational.valueOf(ints[i]);
     }
     return new ArrayTuple<>(rationals);
   }
@@ -12,7 +12,7 @@ public final class ArrayTuples {
   public static ArrayTuple<MultiVarPolynomial> polynomialTuple(int... ints) {
     MultiVarPolynomial[] pols = new MultiVarPolynomial[ints.length];
     for (int i = 0; i < ints.length; i++) {
-      pols[i] = ints[i];
+      pols[i] = MultiVarPolynomial.valueOf(ints[i]);
     }
     return new ArrayTuple<>(pols);
   }

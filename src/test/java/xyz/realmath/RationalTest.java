@@ -15,8 +15,8 @@ public class RationalTest {
 
   @Test
   public void equal() {
-    Rational rat1 = Rational.valueOf(6) / 8;
-    Rational rat2 = Rational.valueOf(9) / 12;
+    Rational rat1 = Rational.valueOf(6).divide(8);
+    Rational rat2 = Rational.valueOf(9).divide(12);
 
     assertEquals(rat1, rat2);
     assertEquals(rat1.hashCode(), rat2.hashCode());
@@ -25,59 +25,59 @@ public class RationalTest {
 
   @Test
   public void negate() {
-    Rational rat1 = Rational.valueOf(6) / (-8);
-    Rational rat2 = Rational.valueOf(6) / 8;
+    Rational rat1 = Rational.valueOf(6).divide(-8);
+    Rational rat2 = Rational.valueOf(6).divide(8);
 
-    assertEquals(Rational.ZERO, rat1 + rat2);
-    assertEquals(Rational.ZERO, rat2 + rat1);
+    assertEquals(Rational.ZERO, rat1.add(rat2));
+    assertEquals(Rational.ZERO, rat2.add(rat1));
   }
 
   @Test
   public void multiply() {
-    Rational rat1 = Rational.valueOf(6) / 8;
-    Rational rat2 = Rational.valueOf(2) / 3;
-    Rational rat3 = Rational.ONE / 2;
+    Rational rat1 = Rational.valueOf(6).divide(8);
+    Rational rat2 = Rational.valueOf(2).divide(3);
+    Rational rat3 = Rational.ONE.divide(2);
 
-    assertEquals(rat3, rat1 * rat2);
+    assertEquals(rat3, rat1.multiply(rat2));
   }
 
   @Test
   public void reciprocal() {
-    Rational rat1 = Rational.valueOf(6) / 8;
-    Rational rat2 = Rational.valueOf(4) / 3;
+    Rational rat1 = Rational.valueOf(6).divide(8);
+    Rational rat2 = Rational.valueOf(4).divide(3);
 
     assertEquals(rat2, rat1.reciprocal());
   }
 
   @Test
   public void subtract() {
-    Rational rat1 = Rational.valueOf(6) / 8;
-    Rational rat2 = Rational.valueOf(4) / 3;
-    Rational rat3 = Rational.valueOf(-7) / 12;
+    Rational rat1 = Rational.valueOf(6).divide(8);
+    Rational rat2 = Rational.valueOf(4).divide(3);
+    Rational rat3 = Rational.valueOf(-7).divide(12);
 
-    assertEquals(rat3, rat1 - rat2);
+    assertEquals(rat3, rat1.subtract(rat2));
   }
 
   @Test
   public void divideBy() {
-    Rational rat1 = Rational.valueOf(6) / 8;
-    Rational rat2 = Rational.valueOf(4) / 3;
-    Rational rat3 = Rational.valueOf(9) / 16;
+    Rational rat1 = Rational.valueOf(6).divide(8);
+    Rational rat2 = Rational.valueOf(4).divide(3);
+    Rational rat3 = Rational.valueOf(9).divide(16);
 
-    assertEquals(rat3, rat1 / rat2);
+    assertEquals(rat3, rat1.divide(rat2));
   }
 
   @Test
   public void toStringTest() {
-    Rational rat = Rational.valueOf(7) / -12;
+    Rational rat = Rational.valueOf(7).divide(-12);
 
     assertEquals("-7:12", rat.toString());
   }
 
   @Test
   public void pow() {
-    Rational r = Rational.valueOf(2) / -3;
-    Rational v = Rational.valueOf(-27) / 8;
+    Rational r = Rational.valueOf(2).divide(-3);
+    Rational v = Rational.valueOf(-27).divide(8);
     assertEquals(v, r.pow(-3));
   }
 

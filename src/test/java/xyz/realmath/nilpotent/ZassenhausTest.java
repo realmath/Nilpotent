@@ -16,55 +16,57 @@ public class ZassenhausTest {
   private static Tuple<MultiVarPolynomial> X = Polynomials.basePols(DIM);
   private static Tuple<MultiVarPolynomial> Y = Polynomials.basePols2(DIM);
   private static final Tuple<MultiVarPolynomial> C2 =
-      lieBracket(X, Y).multiply(Rational.valueOf(1) / 2);
+      lieBracket(X, Y).multiply(Rational.valueOf(1).divide(2));
   private static final Tuple<MultiVarPolynomial> C3 =
-      (lieBracket(Y, lieBracket(X, Y)).multiply(Rational.valueOf(1) / 3))
-          .add(lieBracket(X, lieBracket(X, Y)).multiply(Rational.valueOf(1) / 6));
+      (lieBracket(Y, lieBracket(X, Y)).multiply(Rational.valueOf(1).divide(3)))
+          .add(lieBracket(X, lieBracket(X, Y)).multiply(Rational.valueOf(1).divide(6)));
   private static final Tuple<MultiVarPolynomial> C4 =
       (lieBracket(Y, lieBracket(Y, lieBracket(X, Y)))
               .add(lieBracket(Y, lieBracket(X, lieBracket(X, Y))))
-              .multiply(Rational.valueOf(1) / 8))
-          .add(lieBracket(X, lieBracket(X, lieBracket(X, Y))).multiply(Rational.valueOf(1) / 24));
+              .multiply(Rational.valueOf(1).divide(8)))
+          .add(
+              lieBracket(X, lieBracket(X, lieBracket(X, Y)))
+                  .multiply(Rational.valueOf(1).divide(24)));
   private static final Tuple<MultiVarPolynomial> C5 =
       // ([[[[Y, X], Y], Y], Y] + [[[[Y, X], X], X], Y]) / 30
       (lieBracket(lieBracket(lieBracket(lieBracket(Y, X), Y), Y), Y)
               .add(lieBracket(lieBracket(lieBracket(lieBracket(Y, X), X), X), Y))
-              .multiply(Rational.valueOf(1) / 30))
+              .multiply(Rational.valueOf(1).divide(30)))
           // +
           .add(
               // ([[[[Y, X], X], Y], Y] +  [[[Y, X], X], [Y, X]]) / 20
               lieBracket(lieBracket(lieBracket(lieBracket(Y, X), X), Y), Y)
                   .add(lieBracket(lieBracket(lieBracket(Y, X), X), lieBracket(Y, X)))
-                  .multiply(Rational.valueOf(1) / 20))
+                  .multiply(Rational.valueOf(1).divide(20)))
           // + [[[Y, X], Y], [Y, X]] / 10
           .add(
               lieBracket(lieBracket(lieBracket(Y, X), Y), lieBracket(Y, X))
-                  .multiply(Rational.valueOf(1) / 10))
+                  .multiply(Rational.valueOf(1).divide(10)))
           // + [[[[Y, X], X], X], X] / 120
           .add(
               lieBracket(lieBracket(lieBracket(lieBracket(Y, X), X), X), X)
-                  .multiply(Rational.valueOf(1) / 120));
+                  .multiply(Rational.valueOf(1).divide(120)));
   private static final Tuple<MultiVarPolynomial> C6 =
       // [[[[[X, Y], Y], Y], Y], Y] + [[[[[X, Y], X], X], X], Y] / 144
       (lieBracket(lieBracket(lieBracket(lieBracket(lieBracket(X, Y), Y), Y), Y), Y)
               .add(lieBracket(lieBracket(lieBracket(lieBracket(lieBracket(X, Y), X), X), X), Y))
-              .multiply(Rational.valueOf(1) / 144))
+              .multiply(Rational.valueOf(1).divide(144)))
           // + ([[[[[X, Y], X], Y], Y], Y] + [[[[[X, Y], X], X], Y], Y]
           //    + [[[[X, Y], X], X], [Y, X]]) / 72
           .add(
               lieBracket(lieBracket(lieBracket(lieBracket(lieBracket(X, Y), X), X), Y), Y)
                   .add(lieBracket(lieBracket(lieBracket(lieBracket(lieBracket(X, Y), X), X), Y), Y))
                   .add(lieBracket(lieBracket(lieBracket(lieBracket(X, Y), X), X), lieBracket(Y, X)))
-                  .multiply(Rational.valueOf(1) / 72))
+                  .multiply(Rational.valueOf(1).divide(72)))
           // + ([[[[X, Y], Y], Y], [Y, X]] + [[[[X, Y], X], Y], [Y, X]]) / 24
           .add(
               lieBracket(lieBracket(lieBracket(lieBracket(X, Y), Y), Y), lieBracket(Y, X))
                   .add(lieBracket(lieBracket(lieBracket(lieBracket(X, Y), X), Y), lieBracket(Y, X)))
-                  .multiply(Rational.valueOf(1) / 24))
+                  .multiply(Rational.valueOf(1).divide(24)))
           // [[[[[X, Y], X], X], X], X] / 720
           .add(
               lieBracket(lieBracket(lieBracket(lieBracket(lieBracket(X, Y), X), X), X), X)
-                  .multiply(Rational.valueOf(1) / 720));
+                  .multiply(Rational.valueOf(1).divide(720)));
 
   private static Tuple<MultiVarPolynomial> lieBracket(
       Tuple<MultiVarPolynomial> left, Tuple<MultiVarPolynomial> right) {

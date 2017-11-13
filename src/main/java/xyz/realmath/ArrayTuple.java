@@ -43,7 +43,7 @@ public class ArrayTuple<T extends Algebra<Rational, T>> implements Tuple<T> {
 
   @Override
   public T get(int idx) {
-    return ts[idx];
+    return ts.get(idx);
   }
 
   @Override
@@ -52,7 +52,7 @@ public class ArrayTuple<T extends Algebra<Rational, T>> implements Tuple<T> {
 
     ArrayList<T> sums = new ArrayList<>();
     for (int i = 0; i < length; i++) {
-      sums.add(ts[i] + tuple[i]);
+      sums.add(ts.get(i).add(tuple.get(i)));
     }
 
     return new ArrayTuple<>(sums);
@@ -65,7 +65,7 @@ public class ArrayTuple<T extends Algebra<Rational, T>> implements Tuple<T> {
 
     ArrayList<T> sums = new ArrayList<>();
     for (int i = 0; i < length; i++) {
-      sums.add(ts[i] - tuple[i]);
+      sums.add(ts.get(i).subtract(tuple.get(i)));
     }
 
     return new ArrayTuple<>(sums);
@@ -85,7 +85,7 @@ public class ArrayTuple<T extends Algebra<Rational, T>> implements Tuple<T> {
   public Tuple<T> multiply(Rational r) {
     ArrayList<T> prods = new ArrayList<>();
     for (int i = 0; i < length; i++) {
-      prods.add(ts[i] * r);
+      prods.add(ts.get(i).multiply(r));
     }
 
     return new ArrayTuple<>(prods);
@@ -107,7 +107,7 @@ public class ArrayTuple<T extends Algebra<Rational, T>> implements Tuple<T> {
         if (i > ts.size()) {
           throw new NoSuchElementException();
         }
-        return ts[i - 1];
+        return ts.get(i - 1);
       }
     };
   }

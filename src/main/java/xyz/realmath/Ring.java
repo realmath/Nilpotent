@@ -5,7 +5,7 @@ public interface Ring<T extends Ring<T>> extends AbelianGroup<T> {
   T add(int i);
 
   default T subtract(int i) {
-    return this + (-i);
+    return this.add(-i);
   }
 
   T multiply(T t);

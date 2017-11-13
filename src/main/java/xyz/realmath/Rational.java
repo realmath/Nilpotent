@@ -17,12 +17,12 @@ public final class Rational implements Field<Rational> {
     checkArgument(!denom.equals(BigInteger.ZERO), "denominator must not be zero");
     BigInteger oldNumer = numer;
 
-    numer = numer / oldNumer.gcd(denom);
-    denom = denom / oldNumer.gcd(denom);
+    numer = numer.divide(oldNumer.gcd(denom));
+    denom = denom.divide(oldNumer.gcd(denom));
 
     if (denom.signum() == -1) {
-      numer = -numer;
-      denom = -denom;
+      numer = numer.negate();
+      denom = denom.negate();
     }
 
     this.numer = numer;
@@ -40,7 +40,7 @@ public final class Rational implements Field<Rational> {
   public static Rational factorial(int n) {
     Rational retVal = Rational.ONE;
     for (int i = 1; i <= n; i++) {
-      retVal = retVal * i;
+      retVal = retVal.multiply(i);
     }
     return retVal;
   }
@@ -56,37 +56,37 @@ public final class Rational implements Field<Rational> {
 
   @Override
   public Rational add(Rational by) {
-    BigInteger newDenom = denom * by.denom;
-    BigInteger newNumer = numer * by.denom;
+    BigInteger newDenom = denom.multiply(by.denom);
+    BigInteger newNumer = numer.multiply(by.denom);
 
-    newNumer = newNumer + by.numer * denom;
+    newNumer = newNumer.add(by.numer.multiply(denom));
 
     return new Rational(newNumer, newDenom);
   }
 
   @Override
   public Rational add(int i) {
-    return this + Rational.valueOf(i);
+    return this.add(Rational.valueOf(i));
   }
 
   @Override
   public Rational multiply(Rational by) {
-    return new Rational(numer * by.numer, denom * by.denom);
+    return new Rational(numer.multiply(by.numer), denom.multiply(by.denom));
   }
 
   @Override
   public Rational multiply(int i) {
-    return this * Rational.valueOf(i);
+    return this.multiply(Rational.valueOf(i));
   }
 
   @Override
   public Rational divide(int i) {
-    return this / Rational.valueOf(i);
+    return this.divide(Rational.valueOf(i));
   }
 
   @Override
   public Rational negate() {
-    return new Rational(-numer, denom);
+    return new Rational(numer.negate(), denom);
   }
 
   @Override
@@ -104,7 +104,7 @@ public final class Rational implements Field<Rational> {
     }
     Rational retVal = Rational.ONE;
     for (int i = 0; i < n; i++) {
-      retVal = retVal * this;
+      retVal = retVal.multiply(this);
     }
     return retVal;
   }

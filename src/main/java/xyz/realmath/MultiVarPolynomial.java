@@ -66,12 +66,12 @@ public class MultiVarPolynomial implements Algebra<Rational, MultiVarPolynomial>
 
   @Override
   public MultiVarPolynomial multiply(int i) {
-    return this * Rational.valueOf(i);
+    return this.multiply(Rational.valueOf(i));
   }
 
   @Override
   public MultiVarPolynomial add(int i) {
-    return this + valueOf(i);
+    return this.add(valueOf(i));
   }
 
   @Override
@@ -81,7 +81,7 @@ public class MultiVarPolynomial implements Algebra<Rational, MultiVarPolynomial>
 
   @Override
   public MultiVarPolynomial divide(int i) {
-    return this / Rational.valueOf(i);
+    return this.divide(Rational.valueOf(i));
   }
 
   public MultiVarPolynomial pow(int p) {

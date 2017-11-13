@@ -44,19 +44,19 @@ public class ArrayTupleTest {
   @Test
   public void get() {
     ArrayTuple<Rational> t1 = ArrayTuples.rationalTuple(1, 0, 1);
-    assertEquals(Rational.ONE, t1[2]);
+    assertEquals(Rational.ONE, t1.get(2));
   }
 
   @Test
   public void add() {
     ArrayTuple<Rational> t = new ArrayTuple<>();
-    assertEquals(t, t + t);
+    assertEquals(t, t.add(t));
 
     ArrayTuple<Rational> t1 = ArrayTuples.rationalTuple(1, 0, 1);
     ArrayTuple<Rational> t2 = ArrayTuples.rationalTuple(0, 1, 1);
     ArrayTuple<Rational> t3 = ArrayTuples.rationalTuple(1, 1, 2);
 
-    assertEquals(t3, t1 + t2);
+    assertEquals(t3, t1.add(t2));
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -69,23 +69,23 @@ public class ArrayTupleTest {
   @Test
   public void minus() {
     Tuple<Rational> t = new ArrayTuple<>();
-    assertEquals(t, t - t);
+    assertEquals(t, t.subtract(t));
 
     Tuple<Rational> t1 = ArrayTuples.rationalTuple(1, 0, 1);
     Tuple<Rational> t2 = ArrayTuples.rationalTuple(0, 1, 1);
     Tuple<Rational> t3 = ArrayTuples.rationalTuple(1, -1, 0);
 
-    assertEquals(t3, t1 - t2);
+    assertEquals(t3, t1.subtract(t2));
   }
 
   @Test
   public void multiply() {
     ArrayTuple<Rational> t = new ArrayTuple<>();
-    assertEquals(t, t * Rational.valueOf(3));
+    assertEquals(t, t.multiply(Rational.valueOf(3)));
 
     ArrayTuple<Rational> t1 = ArrayTuples.rationalTuple(1, 0, 1);
     ArrayTuple<Rational> t3 = ArrayTuples.rationalTuple(3, 0, 3);
-    assertEquals(t3, t1 * Rational.valueOf(3));
+    assertEquals(t3, t1.multiply(Rational.valueOf(3)));
   }
 
   @Test
