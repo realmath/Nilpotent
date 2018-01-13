@@ -10,7 +10,7 @@ public interface AbelianGroup<T extends AbelianGroup<T>> {
   T negate();
 
   default T subtract(T t) {
-    return this.add(t.negate());
+    return thisT().add(t.negate());
   }
 
   @SuppressWarnings("unchecked")
